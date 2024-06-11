@@ -30,82 +30,11 @@ class ScheduleListItem extends StatelessWidget {
       ),
       child: Consumer<SettingsState>(
         builder: (context, state, child) {
+          var lessonList = _generateLessonCard(state);
+
           return Column(
             mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-                sessionDay.lessons!.length,
-                    (index) {
-                        if(sessionDay.lessons!.length == 1){
-                          if(state.useFormatting){
-                            return LessonCard(
-                                part: sessionDay.lessons!.elementAt(index),
-                                date: sessionDay.date!,
-                                isPreviousDay: isPreviousDay,
-                                type: LessonCardType.one,
-                            );
-                          }
-
-                          return UnformattedLessonCard(
-                            part: sessionDay.lessons!.elementAt(index),
-                            date: sessionDay.date!,
-                            isPreviousDay: isPreviousDay,
-                            type: LessonCardType.one,
-                          );
-                        }
-
-                        if(index == 0){
-                          if(state.useFormatting){
-                            return LessonCard(
-                              part: sessionDay.lessons!.elementAt(index),
-                              date: sessionDay.date!,
-                              isPreviousDay: isPreviousDay,
-                              type: LessonCardType.top,
-                            );
-                          }
-
-                          return UnformattedLessonCard(
-                            part: sessionDay.lessons!.elementAt(index),
-                            date: sessionDay.date!,
-                            isPreviousDay: isPreviousDay,
-                            type: LessonCardType.top,
-                          );
-                        }
-
-                        if(index == sessionDay.lessons!.length - 1) {
-                          if(state.useFormatting){
-                            return LessonCard(
-                              part: sessionDay.lessons!.elementAt(index),
-                              date: sessionDay.date!,
-                              isPreviousDay: isPreviousDay,
-                              type: LessonCardType.bottom,
-                            );
-                          }
-
-                          return UnformattedLessonCard(
-                            part: sessionDay.lessons!.elementAt(index),
-                            date: sessionDay.date!,
-                            isPreviousDay: isPreviousDay,
-                            type: LessonCardType.bottom,
-                          );
-                        }
-
-                        if(state.useFormatting){
-                          return LessonCard(
-                            part: sessionDay.lessons!.elementAt(index),
-                            date: sessionDay.date!,
-                            isPreviousDay: isPreviousDay,
-                            type: LessonCardType.center,
-                          );
-                        }
-
-                        return UnformattedLessonCard(
-                          part: sessionDay.lessons!.elementAt(index),
-                          date: sessionDay.date!,
-                          isPreviousDay: isPreviousDay,
-                          type: LessonCardType.center,
-                        );
-                    }
-            ),
+            children: lessonList
           );
         }
       ),
@@ -117,5 +46,39 @@ class ScheduleListItem extends StatelessWidget {
     var date = DateTime.parse(sessionDay.date!);
 
     return currentDate.difference(date).inDays > 0;
+  }
+
+  List<Widget> _generateLessonCard(SettingsState state){
+    if(sessionDay.lessons!.length == 1) return [_lessonCardByType(sessionDay.lessons!.first, state)];
+
+    var lessonCards = <Widget>[];
+
+    lessonCards.add(_lessonCardByType(sessionDay.lessons!.first, state, LessonCardType.top));
+
+    for(int i = 1; i < sessionDay.lessons!.length - 1; i++){
+      lessonCards.add(_lessonCardByType(sessionDay.lessons!.elementAt(i), state, LessonCardType.center));
+    }
+
+    lessonCards.add(_lessonCardByType(sessionDay.lessons!.last, state, LessonCardType.bottom));
+
+    return lessonCards;
+  }
+
+  Widget _lessonCardByType(Lesson lesson, SettingsState state, [LessonCardType type = LessonCardType.one]){
+    if(state.useFormatting){
+      return LessonCard(
+        part: lesson,
+        date: sessionDay.date!,
+        isPreviousDay: isPreviousDay,
+        type: type,
+      );
+    }
+
+    return UnformattedLessonCard(
+      part: lesson,
+      date: sessionDay.date!,
+      isPreviousDay: isPreviousDay,
+      type: type,
+    );
   }
 }
