@@ -19,12 +19,13 @@ class ScheduleListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-                color: Colors.black12,
+                color: Theme.of(context).colorScheme.shadow,
                 blurRadius: 8,
-                offset: Offset(0, 3)
+                spreadRadius: -5,
+                offset: const Offset(0, 3)
             )
           ]
       ),

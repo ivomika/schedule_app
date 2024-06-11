@@ -3,7 +3,6 @@ import 'package:schedule_app/infrastructure/object/month.dart';
 import 'package:schedule_app/infrastructure/object/lesson.dart';
 import 'package:schedule_app/infrastructure/object/lesson_time.dart';
 import 'package:schedule_app/infrastructure/object/lesson_type.dart';
-import 'package:schedule_app/ui/base/color/color_interface.dart';
 import 'package:schedule_app/ui/base/text/body.dart';
 import 'package:schedule_app/ui/base/text/caption.dart';
 
@@ -43,9 +42,7 @@ class LessonCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: type.borderRadius,
-        color: isPreviousDay
-          ? Colors.black12
-          : ColorInterface.surface,
+        color: Theme.of(context).cardColor
       ),
 
       child: Row(
@@ -53,7 +50,7 @@ class LessonCard extends StatelessWidget {
           Container(
             width: 20,
             height: double.maxFinite,
-            color: LessonType.byKey(part.type).color,
+            color: LessonType.byKey(part.type).color(context),
           ),
           Expanded(
             child: Padding(
@@ -78,7 +75,10 @@ class LessonCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BodyText(body),
-                      CaptionText(caption)
+                      CaptionText(
+                          caption,
+                          color: Theme.of(context).hintColor,
+                      )
                     ],
                   )
                 ],

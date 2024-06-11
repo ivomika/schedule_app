@@ -9,7 +9,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/infrastructure/state/schedule_state.dart';
 import 'package:schedule_app/pages/settings/settings_modal.dart';
-import 'package:schedule_app/ui/base/color/color_interface.dart';
 import 'package:schedule_app/ui/base/text/body.dart';
 import 'package:schedule_app/ui/base/text/header.dart';
 import 'package:schedule_app/ui/schedule/schedule_list_item.dart';
@@ -21,25 +20,27 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorInterface.surface,
       body: SafeArea(
         child: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  backgroundColor: ColorInterface.surface,
-                  surfaceTintColor: ColorInterface.surface,
+                  backgroundColor: Theme.of(context).colorScheme.background,
                   centerTitle: false,
                   actions: [
                     IconButton(
                         onPressed: () => _onSettingsButtonTap(context),
-                        icon: const Icon(Icons.settings)
+                        icon: Icon(
+                            Icons.settings,
+                            color: Theme.of(context).primaryColorDark,
+                        )
                     )
                   ],
                   title: Consumer<ScheduleState>(
                     builder: (context, state, child) {
                       return HeaderText(
                         'Расписание ${state.title}',
+                        color: Theme.of(context).colorScheme.onBackground,
                       );
                     },
                   ),
@@ -105,7 +106,7 @@ class _FloatingButton extends StatelessWidget {
     return Consumer<ScheduleState>(builder: (context, state, child) {
       return FloatingActionButton(
         elevation: 4,
-        backgroundColor: ColorInterface.primaryAccent,
+        backgroundColor: Theme.of(context).primaryColorLight,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
                 Radius.circular(30.0)
@@ -114,7 +115,6 @@ class _FloatingButton extends StatelessWidget {
         onPressed: () => _onTap(state, context),
         child: const Icon(
           Icons.add,
-          color: Colors.white,
         ),
       );
     });
@@ -196,16 +196,18 @@ class _BottomBarState extends State<_BottomBar> {
   @override
   Widget build(BuildContext context) {
 
+    var theme = Theme.of(context);
+
     return AnimatedBottomNavigationBar.builder(
       itemCount: 2,
       activeIndex: _currentIndex,
-      backgroundColor: ColorInterface.surface,
+      backgroundColor: theme.scaffoldBackgroundColor,
       tabBuilder: (int index, bool isActive) {
         return Icon(
           _icons.elementAt(index),
           color: isActive
-              ? ColorInterface.primaryAccent
-              : Colors.black54,
+            ? theme.primaryColorLight
+            : theme.primaryColorDark,
         );
       },
       onTap: _onTap,

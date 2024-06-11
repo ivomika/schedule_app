@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/infrastructure/state/settings_state.dart';
-import 'package:schedule_app/ui/base/color/color_interface.dart';
 import 'package:schedule_app/ui/settings/settings_slider.dart';
 
 class SettingsModal extends StatelessWidget {
@@ -23,7 +22,7 @@ class SettingsModal extends StatelessWidget {
               height: 8,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.black54),
+              ),
             ),
           ),
           const SizedBox(height: 16,),

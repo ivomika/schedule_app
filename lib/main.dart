@@ -1,16 +1,16 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/infrastructure/state/schedule_state.dart';
 import 'package:schedule_app/infrastructure/state/settings_state.dart';
 import 'package:schedule_app/pages/main/main_page.dart';
-import 'package:schedule_app/ui/base/color/color_interface.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor: ColorInterface.surface, // цвет панели навигации
-  ));
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   systemNavigationBarColor: ColorInterface.surface, // цвет панели навигации
+  // ));
 
   ScheduleState createScheduleState(BuildContext context) {
     var schedule = ScheduleState();
@@ -47,10 +47,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'LearnTime',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: ColorInterface.primary),
-          useMaterial3: true,
-        ),
+        theme: FlexThemeData.light(scheme: FlexScheme.hippieBlue),
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.cyanM3),
         home: const MyHomePage());
   }
 }
