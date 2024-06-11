@@ -19,12 +19,12 @@ class LessonType{
   // };
 
   static final Map<String, LessonType> _types = {
-    'lecture': LessonType(name: 'Лекция', color: (context) => Theme.of(context).colorScheme.secondaryContainer),
-    'practice': LessonType(name: 'Практика', color: (context) => Theme.of(context).colorScheme.primaryContainer),
-    'laboratory': LessonType(name: 'Лабораторная', color: (context) => Theme.of(context).colorScheme.tertiaryContainer),
-    'exam': LessonType(name: 'Экзамен', color: (context) => Theme.of(context).colorScheme.primary),
-    'test': LessonType(name: 'Зачет', color: (context) => Theme.of(context).colorScheme.secondary),
-    'weekend': LessonType(name: '', color: (context) => Theme.of(context).colorScheme.error),
+    'lecture': LessonType(name: 'Лекция', color: (context) => Theme.of(context).colorScheme.primaryContainer),
+    'practice': LessonType(name: 'Практика', color: (context) => Theme.of(context).colorScheme.primary),
+    'laboratory': LessonType(name: 'Лабораторная', color: (context) => Theme.of(context).colorScheme.primary),
+    'exam': LessonType(name: 'Экзамен', color: (context) => Theme.of(context).colorScheme.error),
+    'test': LessonType(name: 'Зачет', color: (context) => Theme.of(context).colorScheme.error),
+    'weekend': LessonType(name: '', color: (context) => Theme.of(context).colorScheme.tertiaryContainer),
   };
 
   static LessonType byKey(String? key){

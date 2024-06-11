@@ -42,7 +42,7 @@ class LessonCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: type.borderRadius,
-        color: Theme.of(context).cardColor
+        color: Theme.of(context).colorScheme.surface
       ),
 
       child: Row(

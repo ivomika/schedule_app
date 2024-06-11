@@ -32,7 +32,7 @@ class MyHomePage extends StatelessWidget {
                         onPressed: () => _onSettingsButtonTap(context),
                         icon: Icon(
                             Icons.settings,
-                            color: Theme.of(context).primaryColorDark,
+                            color: Theme.of(context).colorScheme.onBackground,
                         )
                     )
                   ],
