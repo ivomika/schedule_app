@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'LearnTime',
-        theme: FlexThemeData.light(scheme: FlexScheme.hippieBlue),
-        darkTheme: FlexThemeData.dark(scheme: FlexScheme.cyanM3),
+        theme: FlexThemeData.light(scheme: FlexScheme.blumineBlue),
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.blumineBlue),
         home: const MyHomePage());
   }
 }

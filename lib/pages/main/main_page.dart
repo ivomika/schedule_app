@@ -20,19 +20,20 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
         child: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  backgroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   centerTitle: false,
                   actions: [
                     IconButton(
                         onPressed: () => _onSettingsButtonTap(context),
                         icon: Icon(
                             Icons.settings,
-                            color: Theme.of(context).colorScheme.onBackground,
+                            color: Theme.of(context).colorScheme.surface,
                         )
                     )
                   ],
@@ -40,7 +41,7 @@ class MyHomePage extends StatelessWidget {
                     builder: (context, state, child) {
                       return HeaderText(
                         'Расписание ${state.title}',
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                       );
                     },
                   ),
@@ -105,7 +106,6 @@ class _FloatingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ScheduleState>(builder: (context, state, child) {
       return FloatingActionButton(
-        elevation: 4,
         backgroundColor: Theme.of(context).primaryColorLight,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -113,8 +113,9 @@ class _FloatingButton extends StatelessWidget {
             )
         ),
         onPressed: () => _onTap(state, context),
-        child: const Icon(
+        child: Icon(
           Icons.add,
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
       );
     });
@@ -201,7 +202,6 @@ class _BottomBarState extends State<_BottomBar> {
     return AnimatedBottomNavigationBar.builder(
       itemCount: 2,
       activeIndex: _currentIndex,
-      backgroundColor: theme.scaffoldBackgroundColor,
       tabBuilder: (int index, bool isActive) {
         return Icon(
           _icons.elementAt(index),
@@ -211,16 +211,18 @@ class _BottomBarState extends State<_BottomBar> {
         );
       },
       onTap: _onTap,
+      backgroundColor: theme.scaffoldBackgroundColor,
       gapLocation: GapLocation.center,
-      notchSmoothness: NotchSmoothness.defaultEdge,
-      elevation: 8,
+      splashRadius: 100,
+      splashSpeedInMilliseconds: 1000,
+      splashColor: theme.primaryColor,
+      elevation: 24,
     );
   }
 
   _onTap(int index) {
     if(index == _icons.length - 1){
       _showInfo();
-      return;
     }
 
     setState(() {

@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:schedule_app/infrastructure/object/month.dart';
 import 'package:schedule_app/infrastructure/object/lesson.dart';
@@ -42,7 +43,9 @@ class LessonCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: type.borderRadius,
-        color: Theme.of(context).colorScheme.surface
+        color: isPreviousDay
+          ? Theme.of(context).colorScheme.surface.lighten(15)
+          : Theme.of(context).colorScheme.surface.lighten(4)
       ),
 
       child: Row(
