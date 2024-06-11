@@ -33,7 +33,7 @@ class MyHomePage extends StatelessWidget {
                         onPressed: () => _onSettingsButtonTap(context),
                         icon: Icon(
                             Icons.settings,
-                            color: Theme.of(context).colorScheme.surface,
+                            color: Theme.of(context).colorScheme.onSurface,
                         )
                     )
                   ],
@@ -214,7 +214,7 @@ class _BottomBarState extends State<_BottomBar> {
       backgroundColor: theme.scaffoldBackgroundColor,
       gapLocation: GapLocation.center,
       splashRadius: 100,
-      splashSpeedInMilliseconds: 1000,
+      splashSpeedInMilliseconds: 500,
       splashColor: theme.primaryColor,
       elevation: 24,
     );

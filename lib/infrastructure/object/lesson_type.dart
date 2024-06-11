@@ -9,21 +9,12 @@ class LessonType{
     required this.color
   });
 
-  // static final Map<String, LessonType> _types = {
-  //   'lecture': LessonType(name: 'Лекция', color: ColorInterface.primaryAccent),
-  //   'practice': LessonType(name: 'Практика', color: ColorInterface.primary),
-  //   'laboratory': LessonType(name: 'Лабораторная', color: ColorInterface.primary),
-  //   'exam': LessonType(name: 'Экзамен', color: ColorInterface.warning),
-  //   'test': LessonType(name: 'Зачет', color: ColorInterface.success),
-  //   'weekend': LessonType(name: '', color: ColorInterface.error),
-  // };
-
   static final Map<String, LessonType> _types = {
     'lecture': LessonType(name: 'Лекция', color: (context) => Theme.of(context).colorScheme.primaryContainer),
     'practice': LessonType(name: 'Практика', color: (context) => Theme.of(context).colorScheme.primary),
     'laboratory': LessonType(name: 'Лабораторная', color: (context) => Theme.of(context).colorScheme.primary),
     'exam': LessonType(name: 'Экзамен', color: (context) => Theme.of(context).colorScheme.error),
-    'test': LessonType(name: 'Зачет', color: (context) => Theme.of(context).colorScheme.error),
+    'test': LessonType(name: 'Зачет', color: (context) => Theme.of(context).colorScheme.errorContainer),
     'weekend': LessonType(name: '', color: (context) => Theme.of(context).colorScheme.tertiaryContainer),
   };
 
