@@ -1,127 +1,61 @@
-
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:schedule_app/infrastructure/state/schedule_state.dart';
+import 'package:schedule_app/pages/archive/archive_page.dart';
+import 'package:schedule_app/pages/home/home_page.dart';
 import 'package:schedule_app/pages/settings/settings_modal.dart';
 import 'package:schedule_app/ui/base/text/body.dart';
 import 'package:schedule_app/ui/base/text/header.dart';
-import 'package:schedule_app/ui/schedule/schedule_list_item.dart';
+import 'package:schedule_app/ui/layout/main_layout.dart';
 import 'package:schedule_app/utils/debugger.dart';
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
+  State<MainPage> createState() => MainPageState();
+}
+
+class MainPageState extends State<MainPage> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
-      body: SafeArea(
-        child: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  centerTitle: false,
-                  actions: [
-                    IconButton(
-                        onPressed: () => _onSettingsButtonTap(context),
-                        icon: Icon(
-                            Icons.settings,
-                            color: Theme.of(context).colorScheme.onSurface,
-                        )
-                    )
-                  ],
-                  title: Consumer<ScheduleState>(
-                    builder: (context, state, child) {
-                      return HeaderText(
-                        'Расписание ${state.title}',
-                        color: Theme.of(context).colorScheme.onSurface,
-                      );
-                    },
-                  ),
-                  snap: true,
-                  floating: true,
-                  forceElevated: innerBoxIsScrolled,
-                ),
-              ];
-            },
-            body: const _Body()
-        ),
-      ),
-      floatingActionButton: const _FloatingButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const _BottomBar(),
+    return MainLayout(
+      onSettingsButtonTap: () => _onSettingsButtonTap(context),
+      onFloatingButtonTap: (state) => _onFloatingTap(state, context),
+      pages: const [
+        MyHomePage(),
+        ArchivePage()
+      ],
     );
   }
+}
+
+
+extension MainPageCallBacks on MainPageState{
 
   void _onSettingsButtonTap(BuildContext context) async {
-    showModalBottomSheet(
-        context: context,
-        builder: (_) {
-          return const SettingsModal();
-        }
-    );
-  }
-}
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      String appName = packageInfo.appName;
+      String version = packageInfo.version;
 
-class _Body extends StatelessWidget {
-  const _Body();
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ScheduleState>(
-      builder: (BuildContext context, ScheduleState state, Widget? child) {
-        if (state.schedule.isEmpty) {
-          return const Center(
-            child: BodyText('Добавьте новое расписание'),
-          );
-        }
-
-        return ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemCount: state.schedule.length,
-          separatorBuilder: (_, __) => const SizedBox(
-            height: 8,
-          ),
-          itemBuilder: (context, index) =>
-              ScheduleListItem(
-                sessionDay: state.schedule.elementAt(index),
-              ),
-        );
-      },
-    );
-  }
-}
-
-class _FloatingButton extends StatelessWidget {
-  const _FloatingButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ScheduleState>(builder: (context, state, child) {
-      return FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-                Radius.circular(30.0)
-            )
-        ),
-        onPressed: () => _onTap(state, context),
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).colorScheme.onPrimary,
-        ),
+      showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.transparent,
+          builder: (_) {
+            return SettingsModal(
+              appName: appName,
+              version: version
+            );
+          }
       );
     });
   }
 
-  void _onTap(ScheduleState state, BuildContext context) async {
+  void _onFloatingTap(ScheduleState state, BuildContext context) async {
     var json = await _pickAndParseJsonFile();
     if (json == null) {
       _showDialog(context);
@@ -162,93 +96,6 @@ class _FloatingButton extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: const HeaderText('Error'),
         content: const BodyText('Не удалось загрузить файл'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pop(); // dismisses only the dialog and returns nothing
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomBar extends StatefulWidget {
-  const _BottomBar();
-
-  @override
-  State<_BottomBar> createState() => _BottomBarState();
-}
-
-class _BottomBarState extends State<_BottomBar> {
-  late int _currentIndex;
-  late List<IconData> _icons;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentIndex = 0;
-    _icons = [Icons.home, Icons.info];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    var theme = Theme.of(context);
-
-    return AnimatedBottomNavigationBar.builder(
-      itemCount: 2,
-      activeIndex: _currentIndex,
-      tabBuilder: (int index, bool isActive) {
-        return Icon(
-          _icons.elementAt(index),
-          color: isActive
-            ? theme.primaryColorLight
-            : theme.primaryColorDark,
-        );
-      },
-      onTap: _onTap,
-      backgroundColor: theme.scaffoldBackgroundColor,
-      gapLocation: GapLocation.center,
-      splashRadius: 100,
-      splashSpeedInMilliseconds: 500,
-      splashColor: theme.primaryColor,
-      elevation: 24,
-    );
-  }
-
-  _onTap(int index) {
-    if(index == _icons.length - 1){
-      _showInfo();
-    }
-
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
-  _showInfo() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const HeaderText('О приложении'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BodyText(
-                'Название - ${packageInfo.appName}'
-            ),
-            BodyText(
-                'Версия - ${packageInfo.version}'
-            ),
-          ],
-        ),
         actions: <Widget>[
           TextButton(
             onPressed: () {

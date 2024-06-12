@@ -14,7 +14,6 @@ class ScheduleListItem extends StatelessWidget {
     required this.sessionDay
   });
 
-  bool get isPreviousDay => _isPreviousDay();
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +41,6 @@ class ScheduleListItem extends StatelessWidget {
     );
   }
 
-  bool _isPreviousDay(){
-    var currentDate = DateTime.now();
-    var date = DateTime.parse(sessionDay.date!);
-
-    return currentDate.difference(date).inDays > 0;
-  }
-
   List<Widget> _generateLessonCard(SettingsState state){
     if(sessionDay.lessons!.length == 1) return [_lessonCardByType(sessionDay.lessons!.first, state)];
 
@@ -70,7 +62,6 @@ class ScheduleListItem extends StatelessWidget {
       return LessonCard(
         part: lesson,
         date: sessionDay.date!,
-        isPreviousDay: isPreviousDay,
         type: type,
       );
     }
@@ -78,7 +69,6 @@ class ScheduleListItem extends StatelessWidget {
     return UnformattedLessonCard(
       part: lesson,
       date: sessionDay.date!,
-      isPreviousDay: isPreviousDay,
       type: type,
     );
   }

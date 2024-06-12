@@ -21,14 +21,12 @@ enum LessonCardType{
 class LessonCard extends StatelessWidget {
   final Lesson part;
   final String date;
-  final bool isPreviousDay;
   final LessonCardType type;
 
   const LessonCard({
     super.key,
     required this.part,
     required this.date,
-    required this.isPreviousDay,
     required this.type,
   });
 
@@ -43,9 +41,7 @@ class LessonCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: type.borderRadius,
-        color: isPreviousDay
-          ? Theme.of(context).colorScheme.surface.lighten(15)
-          : Theme.of(context).colorScheme.surface.lighten(4)
+        color: Theme.of(context).colorScheme.surface.lighten(4)
       ),
 
       child: Row(
@@ -69,9 +65,6 @@ class LessonCard extends StatelessWidget {
                 children: [
                   BodyText(
                     part.subject!,
-                    decoration: isPreviousDay
-                      ? TextDecoration.lineThrough
-                      : null,
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,

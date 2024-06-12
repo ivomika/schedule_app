@@ -1,7 +1,7 @@
 name: schedule_app
 description: "Schedule"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.4.1+1
+version: 1.5.1+1
 
 environment:
   sdk: '>=3.3.1 <4.0.0'

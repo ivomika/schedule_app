@@ -48,6 +48,6 @@ class MyApp extends StatelessWidget {
         title: 'LearnTime',
         theme: FlexThemeData.light(scheme: FlexScheme.blumineBlue),
         darkTheme: FlexThemeData.dark(scheme: FlexScheme.blumineBlue),
-        home: const MyHomePage());
+        home: const MainPage());
   }
 }

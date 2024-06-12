@@ -5,7 +5,6 @@ class UnformattedLessonCard extends LessonCard{
     super.key,
     required super.part,
     required super.date,
-    required super.isPreviousDay,
     required super.type,
   });
 
