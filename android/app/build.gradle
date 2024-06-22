@@ -25,7 +25,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.ivomika.schedule_app"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "27.0.11902837"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
